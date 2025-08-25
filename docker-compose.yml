@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web-server:
+    build: ./web-server
+    container_name: web-server
+    ports:
+      - "8080:80"
+  attacker:
+    build: ./attacker
+    container_name: attacker
+    stdin_open: true
+    tty: true
+    depends_on:
+      - security-proxy
+
+  security-proxy:
+    build: ./security-proxy
+    container_name: security-proxy
+    ports:
+      - "80:80"
+    depends_on:
+      - web-server
